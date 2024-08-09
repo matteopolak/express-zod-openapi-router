@@ -2,8 +2,10 @@
   "name": "express-axum",
   "version": "0.1.0",
   "scripts": {
-    "dev": "tsc-watch"
+    "dev": "tsc-watch",
+    "example": "tsc -p examples/tsconfig.json && tsc-alias -p examples/tsconfig.json && node examples/build-tests/examples/$EXAMPLE.js"
   },
+  "type": "module",
   "author": "Matthew Polak <contact@matteopolak.com>",
   "license": "MIT",
   "description": "",
@@ -18,8 +20,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
+    "@scalar/express-api-reference": "^0.4.134",
     "eslint": "9.x",
     "globals": "^15.9.0",
+    "tsc-alias": "^1.8.10",
     "tsc-watch": "^6.2.0",
     "typescript-eslint": "^8.0.1"
   }

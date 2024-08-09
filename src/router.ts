@@ -5,7 +5,7 @@ import { ZodOpenApiPathsObject } from 'zod-openapi';
 import { InternalOperation, isOperationHandler, Method } from './operation';
 import { RouterMatcher } from './matcher';
 
-export class Router {
+export class RouterBuilder {
 	public inner: ExpressRouter;
 	public paths: ZodOpenApiPathsObject;
 
@@ -22,7 +22,7 @@ export class Router {
 	public readonly options: RouterMatcher = this.createMethod('options');
 	public readonly head: RouterMatcher = this.createMethod('head');
 
-	public use(path: string, router: Router) {
+	public use(path: string, router: RouterBuilder) {
 		this.inner.use(path, router.inner);
 	}
 
@@ -30,7 +30,7 @@ export class Router {
 	 * Builds the OpenAPI document, prepending the given path to all local paths,
 	 * then adding all paths to the given paths object.
 	 */
-	public finish(path: string, paths: ZodOpenApiPathsObject) {
+	public extend(path: string, paths: ZodOpenApiPathsObject) {
 		for (const localPath in this.paths) {
 			const fullPath = joinPaths(path, localPath);
 			paths[fullPath] = this.paths[localPath];
