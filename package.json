@@ -1,0 +1,26 @@
+{
+  "name": "express-axum",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "tsc-watch"
+  },
+  "author": "Matthew Polak <contact@matteopolak.com>",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "@stylistic/eslint-plugin": "^2.6.2",
+    "@types/express": "^4.17.21",
+    "@types/express-serve-static-core": "^4.19.5",
+    "@types/qs": "^6.9.15",
+    "express": "^4.19.2",
+    "zod": "^3.23.8",
+    "zod-openapi": "^2.19.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "eslint": "9.x",
+    "globals": "^15.9.0",
+    "tsc-watch": "^6.2.0",
+    "typescript-eslint": "^8.0.1"
+  }
+}
