@@ -1,4 +1,5 @@
 examples
+tests
 pnpm-lock.yaml
 tsconfig.json
 eslint.config.mjs

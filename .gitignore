@@ -1,4 +1,7 @@
 lib
 examples/build-examples
 node_modules
+*.d.ts
+*.d.ts.map
+*.js
 

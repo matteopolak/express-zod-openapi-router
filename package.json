@@ -7,8 +7,8 @@
 		"node": ">=14"
 	},
 	"scripts": {
-		"dev": "tsc-watch",
-		"build": "tsc",
+		"dev": "tsc-watch -p tsconfig.build.json",
+		"build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
 		"publish": "pnpm build && npm publish --access public",
 		"example": "tsc -p examples/tsconfig.json && tsc-alias -p examples/tsconfig.json && node examples/build-examples/examples/$EXAMPLE.js",
 		"fmt": "eslint --fix .",
@@ -39,7 +39,6 @@
 		"tsc-alias": "^1.8.10",
 		"tsc-watch": "^6.2.0",
 		"typescript-eslint": "^8.0.1",
-		"vite-tsconfig-paths": "^5.0.1",
 		"vitest": "^2.0.5"
 	}
 }
