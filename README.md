@@ -4,7 +4,9 @@ A thin wrapper around Express to validate requests and generate OpenAPI document
 
 ## Features
 
--
+- Drop-in replacement for Express.js `Router`
+- Validate request bodies and query parameters with [Zod](https://zod.dev)
+- Generate OpenAPI documentation from route definitions and Zod schemas
 
 ## Installation
 
