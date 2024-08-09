@@ -1,8 +1,7 @@
 import { apiReference } from '@scalar/express-api-reference';
 import express from 'express';
+import { createDocument, operation, Router } from 'express-zod-openapi-router';
 import { z } from 'zod';
-
-import { createDocument, operation, Router } from '#lib';
 
 const app = express();
 const router = Router();

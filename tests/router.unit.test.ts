@@ -1,4 +1,4 @@
-import { createDocument, operation, Router } from 'express-zod-openapi';
+import { createDocument, operation, Router } from 'express-zod-openapi-router';
 import { expect, test } from 'vitest';
 import { z } from 'zod';
 

@@ -4,7 +4,7 @@
 		"rootDir": ".",
 		"baseUrl": ".",
 		"paths": {
-			"express-zod-openapi": ["src/index.ts"]
+			"express-zod-openapi-router": ["src/index.ts"]
 		}
 	},
 	"include": ["tests/**/*.ts", "src/**/*.ts"]

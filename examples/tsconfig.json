@@ -10,7 +10,7 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"paths": {
-			"#lib": ["../src/index.ts"]
+			"express-zod-openapi-router": ["../src/index.ts"]
 		}
 	},
 	"include": ["../**/*.ts"],

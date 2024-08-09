@@ -1,10 +1,14 @@
 {
-	"name": "express-zod-openapi",
+	"name": "express-zod-openapi-router",
 	"version": "0.0.1",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
 	"engines": {
 		"node": ">=14"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/matteopolak/express-zod-openapi-router"
 	},
 	"scripts": {
 		"dev": "tsc-watch -p tsconfig.build.json",

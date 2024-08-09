@@ -1,4 +1,4 @@
-# Express Zod OpenAPI
+# Express Zod OpenAPI Router
 
 A thin wrapper around Express to validate requests and generate OpenAPI documentation.
 
@@ -28,6 +28,7 @@ const app = express();
 const router = Router();
 
 app.use(express.json());
+app.use(router);
 
 const Query = z.object({
   name: z.string().default('world').openapi({
