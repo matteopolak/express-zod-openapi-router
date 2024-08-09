@@ -6,10 +6,18 @@ import { apiReference } from '@scalar/express-api-reference';
 const app = express();
 const router = Router();
 
-router.get('/hello', operation({
-	body: z.object({
-		name: z.string(),
-	}).openapi({ ref: 'Hello' })
+app.use(express.json());
+app.use(router);
+
+const Person = z.object({
+	name: z.string(),
+})
+	.openapi({ ref: 'Person' });
+
+router.post('/hello', operation({
+	summary: 'Greet person',
+	description: 'Greets the given person by name.',
+	body: Person
 }), (req, res) => {
 	res.send(`Hello, ${req.body.name}!`);
 });
@@ -37,8 +45,6 @@ app.use(
 		},
 	}),
 );
-
-app.use(router);
 
 app.listen(3000, () => {
 	console.log('Server listening on port 3000');

@@ -55,9 +55,9 @@ export function operation<Body = never, Query extends AnyObject = never, Params 
 
 	if (operation.body || operation.query || operation.params) {
 		const schema = z.object({
-			body: operation.body!,
-			query: operation.query!,
-			params: operation.params!,
+			body: operation.body ?? z.any(),
+			query: operation.query ?? z.any(),
+			params: operation.params ?? z.any(),
 		});
 
 		const handler: OperationHandler<Body, Query, Params> = (req, res, next) => {
