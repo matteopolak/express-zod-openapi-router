@@ -3,7 +3,7 @@
 import { Application, ParamsDictionary, RequestHandler, RequestHandlerParams, RouteParameters } from 'express-serve-static-core';
 import { ParsedQs } from 'qs';
 
-// OpenAPI 3.1.0 does not support regular expressions in paths.
+// OpenAPI 3.x does not support regular expressions in paths.
 type PathParams = string | string[];
 
 export interface RouterMatcher<T = void> {

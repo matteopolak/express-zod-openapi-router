@@ -1,7 +1,8 @@
-import express from 'express';
-import { Router, createDocument, operation } from 'express-axum';
-import { z } from 'zod';
 import { apiReference } from '@scalar/express-api-reference';
+import express from 'express';
+import { z } from 'zod';
+
+import { createDocument, operation, Router } from '#lib';
 
 const app = express();
 const router = Router();
@@ -10,17 +11,19 @@ app.use(express.json());
 app.use(router);
 
 const Person = z.object({
-	name: z.string(),
+	name: z.string().openapi({ example: 'Alice' }),
 })
 	.openapi({ ref: 'Person' });
 
-router.post('/hello', operation({
+router.get('/hello', operation({
 	summary: 'Greet person',
 	description: 'Greets the given person by name.',
-	body: Person
+	query: Person
 }), (req, res) => {
-	res.send(`Hello, ${req.body.name}!`);
+	res.send(`Hello, ${req.query.name}!`);
 });
+
+router.notify('/hello', console.log);
 
 const document = createDocument(
 	{

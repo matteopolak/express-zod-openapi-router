@@ -1,4 +1,4 @@
-build
-examples/build-tests
+lib
+examples/build-examples
 node_modules
 

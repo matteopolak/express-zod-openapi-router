@@ -4,10 +4,10 @@ import { ZodOpenApiOperationObject } from 'zod-openapi';
 
 export type AnyObject = Record<string, unknown>;
 
-export type Operation<Body, Query, Params> = Omit<ZodOpenApiOperationObject, 'requestBody' | 'requestParams' | 'responses'> & {
+export type Operation<Body, Query, Path> = Omit<ZodOpenApiOperationObject, 'requestBody' | 'requestParams' | 'responses'> & {
 	body?: ZodSchema<Body, ZodTypeDef, unknown>,
 	query?: ZodType<Query, ZodTypeDef, AnyObject>,
-	params?: ZodType<Params, ZodTypeDef, AnyObject>,
+	path?: ZodType<Path, ZodTypeDef, AnyObject>,
 	responses?: ZodOpenApiOperationObject['responses'],
 };
 
@@ -16,13 +16,13 @@ export type Method = 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | '
 
 const operationSymbol = Symbol('operation');
 
-export type OperationHandler<Body = never, Query = never, Params = never> = RequestHandler<Params, unknown, Body, Query> & {
+export type OperationHandler<Body = never, Query = never, Path = never> = RequestHandler<Path, unknown, Body, Query> & {
 	operation: InternalOperation,
 	symbol: typeof operationSymbol,
 };
 
-export type ErrorHandler<Body, Query, Params> =
-	(req: Request<Params, unknown, Body, Query>, res: Response, error: ZodError) => void;
+export type ErrorHandler<Body, Query, Path> =
+	(req: Request<Path, unknown, Body, Query>, res: Response, error: ZodError) => void;
 
 export function defaultErrorHandler<B, Q, P>(_req: Request<P, unknown, B, Q>, res: Response, error: ZodError) {
 	res.status(400).json(error.issues);
@@ -34,10 +34,10 @@ export function defaultErrorHandler<B, Q, P>(_req: Request<P, unknown, B, Q>, re
  *
  * @param operation Operation to be performed
  */
-export function operation<Body = never, Query extends AnyObject = never, Params extends AnyObject = never>(
-	operation: Operation<Body, Query, Params>,
-	handleError: ErrorHandler<Body, Query, Params> = defaultErrorHandler
-): OperationHandler<Body, Query, Params> {
+export function operation<Body = never, Query extends AnyObject = never, Path extends AnyObject = never>(
+	operation: Operation<Body, Query, Path>,
+	handleError: ErrorHandler<Body, Query, Path> = defaultErrorHandler
+): OperationHandler<Body, Query, Path> {
 	const internalOperation: InternalOperation = {
 		...operation,
 		requestBody: operation.body && {
@@ -49,25 +49,37 @@ export function operation<Body = never, Query extends AnyObject = never, Params 
 		},
 		requestParams: {
 			query: operation.query,
-			path: operation.params,
+			path: operation.path,
 		}
 	};
 
-	if (operation.body || operation.query || operation.params) {
+	// Remove the body, query, and path from the operation
+	// @ts-expect-error - `body`, `query`, and `path` are not part of the OpenAPI spec
+	delete internalOperation.body;
+	// @ts-expect-error - `body`, `query`, and `path` are not part of the OpenAPI spec
+	delete internalOperation.query;
+	// @ts-expect-error - `body`, `query`, and `path` are not part of the OpenAPI spec
+	delete internalOperation.path;
+
+	if (operation.body || operation.query || operation.path) {
 		const schema = z.object({
 			body: operation.body ?? z.any(),
 			query: operation.query ?? z.any(),
-			params: operation.params ?? z.any(),
+			path: operation.path ?? z.any(),
 		});
 
-		const handler: OperationHandler<Body, Query, Params> = (req, res, next) => {
+		const handler: OperationHandler<Body, Query, Path> = (req, res, next) => {
 			const result = schema.safeParse({
 				body: req.body,
 				query: req.query,
-				params: req.params,
+				path: req.params,
 			});
 
 			if (result.success) {
+				req.body = result.data.body;
+				req.query = result.data.query;
+				req.params = result.data.path;
+
 				next();
 			} else {
 				handleError(req, res, result.error);
@@ -79,7 +91,7 @@ export function operation<Body = never, Query extends AnyObject = never, Params 
 
 		return handler;
 	} else {
-		const handler: OperationHandler<Body, Query, Params> = (_req, _res, next) => {
+		const handler: OperationHandler<Body, Query, Path> = (_req, _res, next) => {
 			next();
 		};
 

@@ -1,20 +1,30 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import stylistic from '@stylistic/eslint-plugin';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default [
-	{files: ['**/*.{js,mjs,cjs,ts}']},
+	{
+		files: ['**/*.ts', '*.mjs']
+	},
+	{
+		ignores: ['lib/**', 'examples/build-examples/**']
+	},
 	{languageOptions: { globals: globals.browser }},
 	pluginJs.configs.recommended,
 	...tseslint.configs.recommended,
 	{
 		plugins: {
-			'@stylistic': stylistic
+			'@stylistic': stylistic,
+			'simple-import-sort': simpleImportSort,
+
 		},
 		rules: {
 			'@stylistic/quotes': ['error', 'single'],
 			'@stylistic/indent': ['error', 'tab'],
+			'simple-import-sort/imports': 'error',
+			'simple-import-sort/exports': 'error',
 		}
 	}
 ];

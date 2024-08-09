@@ -4,13 +4,13 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"rootDir": "..",
-		"outDir": "./build-tests",
+		"outDir": "./build-examples",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true,
 		"paths": {
-			"express-axum": ["../src/index.ts"]
+			"#lib": ["../src/index.ts"]
 		}
 	},
 	"include": ["../**/*.ts"],
