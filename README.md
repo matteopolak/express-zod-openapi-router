@@ -22,7 +22,7 @@ Examples can be run with `EXAMPLE={name} pnpm example`, see more examples in the
 ```typescript
 import express from 'express';
 import { z } from 'zod';
-import { createDocument, operation, Router } from 'express-zod-openapi';
+import { createDocument, operation, Router } from 'express-zod-openapi-router';
 
 const app = express();
 const router = Router();
