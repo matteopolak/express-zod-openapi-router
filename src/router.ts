@@ -1,7 +1,6 @@
 import { Router as ExpressRouter } from 'express';
 import { join } from 'path';
-import { compile, parse } from 'path-to-regexp';
-import { z, ZodObject, ZodTypeAny } from 'zod';
+import { parse } from 'path-to-regexp';
 import { ZodOpenApiPathsObject } from 'zod-openapi';
 
 import { RouterMatcher } from './matcher';

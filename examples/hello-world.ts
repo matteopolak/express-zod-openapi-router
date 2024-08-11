@@ -14,7 +14,7 @@ const Person = z.object({
 })
 	.openapi({ ref: 'Person' });
 
-router.get('/hello/:userId(\\d+)/bye/:id', operation({
+router.get('/hello', operation({
 	summary: 'Greet person',
 	description: 'Greets the given person by name.',
 	query: Person
