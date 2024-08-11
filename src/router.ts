@@ -1,5 +1,7 @@
 import { Router as ExpressRouter } from 'express';
 import { join } from 'path';
+import { compile, parse } from 'path-to-regexp';
+import { z, ZodObject, ZodTypeAny } from 'zod';
 import { ZodOpenApiPathsObject } from 'zod-openapi';
 
 import { RouterMatcher } from './matcher';
@@ -127,8 +129,13 @@ export class RouterBuilder {
 }
 
 function addOperation(paths: ZodOpenApiPathsObject, path: string, method: Method, operation: InternalOperation) {
-	paths[path] ??= {};
-	paths[path][method] = {
+	const parsed = parse(path);
+	const formattedPath = parsed.tokens
+		.map(t => typeof t === 'string' ? t : `{${t.name}}`)
+		.join('');
+
+	paths[formattedPath] ??= {};
+	paths[formattedPath][method] = {
 		responses: {},
 		...operation,
 	};

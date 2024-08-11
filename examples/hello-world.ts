@@ -14,15 +14,23 @@ const Person = z.object({
 })
 	.openapi({ ref: 'Person' });
 
-router.get('/hello', operation({
+router.get('/hello/:userId(\\d+)/bye/:id', operation({
 	summary: 'Greet person',
 	description: 'Greets the given person by name.',
 	query: Person
 }), (req, res) => {
-	res.send(`Hello, ${req.query.name}!`);
+	res.json({
+		message: `Hello, ${req.query.name}!`
+	});
 });
 
-router.notify('/hello', console.log);
+router.post('/hello', operation({
+	summary: 'Greet person',
+	description: 'Greets the given person by name.',
+	body: Person
+}), (req, res) => {
+	res.send(`Hello, ${req.body.name}!`);
+});
 
 const document = createDocument(
 	{
